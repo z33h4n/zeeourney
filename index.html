@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Zeeourney — Study &amp; Daily Organizer</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+  <!-- ===================== Navbar ===================== -->
+  <header class="navbar">
+    <div class="navbar-inner">
+      <button class="brand" data-target="dashboard" type="button">
+        <svg class="brand-icon" width="22" height="22" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+          <path d="M3 16c3-1 4-6 7-6s3 7 6 7 4-5 5-8" stroke="#1B8B85" stroke-width="2" stroke-linecap="round" stroke-dasharray="1 5.5"/>
+          <circle cx="20" cy="6" r="2.5" fill="#FF8A3D"/>
+        </svg>
+        Zeeourney
+      </button>
+
+      <button class="hamburger" id="hamburger" type="button" aria-label="Toggle menu">
+        <span class="hamburger-line"></span>
+        <span class="hamburger-line"></span>
+        <span class="hamburger-line"></span>
+      </button>
+
+      <nav class="nav-links" id="nav-links">
+        <button class="nav-link" data-target="task" type="button">Task</button>
+        <button class="nav-link" data-target="list" type="button">List</button>
+      </nav>
+    </div>
+  </header>
+
+  <main class="container">
+
+    <!-- ===================== Dashboard ===================== -->
+    <section class="page" id="dashboard">
+      <div class="dash-greeting">
+        <h1 id="dash-greeting-text">Good morning, Zee</h1>
+        <p class="dash-date" id="dash-date"></p>
+      </div>
+
+      <div class="dash-stats">
+        <div class="stat-panel task-panel">
+          <h2>Task</h2>
+          <div class="stat-group">
+            <div class="stat-item">
+              <span class="stat-value" id="stat-task-total">0</span>
+              <span class="stat-label">Total</span>
+            </div>
+            <div class="stat-item">
+              <span class="stat-value" id="stat-task-pending">0</span>
+              <span class="stat-label">Pending</span>
+            </div>
+            <div class="stat-item">
+              <span class="stat-value" id="stat-task-completed">0</span>
+              <span class="stat-label">Completed</span>
+            </div>
+            <div class="stat-item">
+              <span class="stat-value" id="stat-task-overdue">0</span>
+              <span class="stat-label">Overdue</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="stat-panel list-panel">
+          <h2>List</h2>
+          <div class="stat-group">
+            <div class="stat-item">
+              <span class="stat-value" id="stat-list-total">0</span>
+              <span class="stat-label">Items</span>
+            </div>
+            <div class="stat-item">
+              <span class="stat-value" id="stat-list-needed">0</span>
+              <span class="stat-label">Needed</span>
+            </div>
+            <div class="stat-item">
+              <span class="stat-value" id="stat-list-completed">0</span>
+              <span class="stat-label">Completed</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="dash-preview">
+        <div class="preview-card">
+          <h3>
+            Coming up
+            <button type="button" id="preview-tasks-link">View task</button>
+          </h3>
+          <div id="preview-tasks"></div>
+        </div>
+
+        <div class="preview-card">
+          <h3>
+            Still needed
+            <button type="button" id="preview-items-link">View list</button>
+          </h3>
+          <div id="preview-items"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===================== Task page ===================== -->
+    <section class="page hidden" id="task">
+      <div class="page-header">
+        <h1>Task</h1>
+        <button class="btn btn-primary" id="add-task-btn" type="button">+ Add Task</button>
+      </div>
+
+      <div class="toolbar">
+        <div class="filter-tabs">
+          <button class="filter-tab task-filter-tab active" data-filter="all" type="button">All</button>
+          <button class="filter-tab task-filter-tab" data-filter="pending" type="button">Pending</button>
+          <button class="filter-tab task-filter-tab" data-filter="completed" type="button">Completed</button>
+          <button class="filter-tab task-filter-tab" data-filter="overdue" type="button">Overdue</button>
+        </div>
+
+        <div class="toolbar-right">
+          <input class="search-input" id="task-search-input" type="text" placeholder="Search task...">
+          <select class="sort-select" id="task-sort-select">
+            <option value="deadline">Sort: Deadline</option>
+            <option value="difficulty">Sort: Difficulty</option>
+            <option value="name">Sort: Name</option>
+          </select>
+          <button class="order-toggle" id="task-order-toggle" type="button">↑ Ascending</button>
+        </div>
+      </div>
+
+      <div class="card-list" id="task-list"></div>
+      <p class="empty-state hidden" id="task-empty">No tasks yet. Add one to get started.</p>
+    </section>
+
+    <!-- ===================== List page ===================== -->
+    <section class="page hidden" id="list">
+      <div class="page-header">
+        <h1>List</h1>
+        <button class="btn btn-primary" id="add-item-btn" type="button">+ Add Item</button>
+      </div>
+
+      <div class="toolbar">
+        <div class="filter-tabs">
+          <button class="filter-tab list-filter-tab active" data-filter="all" type="button">All</button>
+          <button class="filter-tab list-filter-tab" data-filter="uncompleted" type="button">Uncompleted</button>
+          <button class="filter-tab list-filter-tab" data-filter="completed" type="button">Completed</button>
+        </div>
+
+        <div class="toolbar-right">
+          <input class="search-input" id="list-search-input" type="text" placeholder="Search item...">
+          <select class="sort-select" id="list-sort-select">
+            <option value="name">Sort: Name</option>
+            <option value="priority">Sort: Priority</option>
+            <option value="category">Sort: Category</option>
+          </select>
+          <button class="order-toggle" id="list-order-toggle" type="button">↑ Ascending</button>
+        </div>
+      </div>
+
+      <div class="card-list" id="item-list"></div>
+      <p class="empty-state hidden" id="item-empty">No items yet. Add one to get started.</p>
+    </section>
+
+  </main>
+
+  <!-- ===================== Task modal ===================== -->
+  <div class="modal-overlay hidden" id="task-modal">
+    <div class="modal">
+      <h2 id="task-modal-title">Add Task</h2>
+      <form id="task-form" novalidate>
+        <div class="form-group">
+          <label for="task-name-input">Task Name</label>
+          <input type="text" id="task-name-input" placeholder="e.g. Mengerjakan tugas akuntansi">
+          <span class="form-error" id="task-name-error">Task name is required.</span>
+        </div>
+
+        <div class="form-group">
+          <label for="task-deadline-input">Deadline</label>
+          <input type="date" id="task-deadline-input">
+          <span class="form-error" id="task-deadline-error">Deadline is required.</span>
+        </div>
+
+        <div class="form-group">
+          <label for="task-difficulty-input">Difficulty</label>
+          <select id="task-difficulty-input">
+            <option value="" disabled selected>Choose difficulty</option>
+            <option value="Easy">Easy</option>
+            <option value="Medium">Medium</option>
+            <option value="Hard">Hard</option>
+          </select>
+          <span class="form-error" id="task-difficulty-error">Difficulty is required.</span>
+        </div>
+
+        <div class="modal-actions">
+          <button type="button" class="btn btn-ghost" id="task-cancel-btn">Cancel</button>
+          <button type="submit" class="btn btn-primary">Save</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- ===================== List item modal ===================== -->
+  <div class="modal-overlay hidden" id="item-modal">
+    <div class="modal">
+      <h2 id="item-modal-title">Add Item</h2>
+      <form id="item-form" novalidate>
+        <div class="form-group">
+          <label for="item-name-input">Item Name</label>
+          <input type="text" id="item-name-input" placeholder="e.g. Pulpen">
+          <span class="form-error" id="item-name-error">Item name is required.</span>
+        </div>
+
+        <div class="form-group">
+          <label for="item-category-input">Category</label>
+          <select id="item-category-input">
+            <option value="" disabled selected>Choose category</option>
+            <option value="Study">Study</option>
+            <option value="Daily">Daily</option>
+            <option value="Personal">Personal</option>
+            <option value="Other">Other</option>
+          </select>
+          <span class="form-error" id="item-category-error">Category is required.</span>
+        </div>
+
+        <div class="form-group">
+          <label for="item-quantity-input">Quantity</label>
+          <input type="number" id="item-quantity-input" min="1" value="1">
+          <span class="form-error" id="item-quantity-error">Quantity must be at least 1.</span>
+        </div>
+
+        <div class="form-group">
+          <label for="item-priority-input">Priority</label>
+          <select id="item-priority-input">
+            <option value="" disabled selected>Choose priority</option>
+            <option value="Low">Low</option>
+            <option value="Medium">Medium</option>
+            <option value="High">High</option>
+          </select>
+          <span class="form-error" id="item-priority-error">Priority is required.</span>
+        </div>
+
+        <div class="form-group">
+          <label for="item-notes-input">Notes (optional)</label>
+          <textarea id="item-notes-input" placeholder="Optional note..."></textarea>
+        </div>
+
+        <div class="modal-actions">
+          <button type="button" class="btn btn-ghost" id="item-cancel-btn">Cancel</button>
+          <button type="submit" class="btn btn-primary">Save</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <script src="js/main.js"></script>
+  <script src="js/task.js"></script>
+  <script src="js/list.js"></script>
+</body>
+</html>
